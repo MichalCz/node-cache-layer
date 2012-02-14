@@ -1,0 +1,19 @@
+{
+    "name": "cache-layer",
+    "version": "0.0.1",
+    "description": "Caching modules with replaceable storage engines and strategies",
+    "author": "Michal Czapracki",
+    "contributors": [],
+    "homepage": "https://github.com/MichalCz/node-cache-layer",
+    "licenses":[{
+       "type":"MIT",
+       "url":"https://github.com/MichalCz/node-cache-layer/blob/master/LICENSE"
+    }],
+    "keywords" : [
+        "cache"
+    ],
+    "engines": {
+        "node": ">= 0.4.0"
+    },
+    "main": "./lib/cache.js"
+}
