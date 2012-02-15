@@ -21,60 +21,31 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+/**
+ * @fileoverview
+ * @author Michał Czapracki
+ *
+ * A simple asynchronous "fibonacci" example for primed cache.
+ *
+ * Inspired by
+ * http://documentcloud.github.com/underscore/#memoize
+ *
+ */
+
+
 "use strict";
 
-/**
- * Returns a cache exception
- *
- * @param {any} extype
- * @param {Error} e
- * @returns {Error}
- */
-var cacheException = exports.cacheException = function(extype, e) {
-    if (extype instanceof Error) {
-        e = extype;
-        extype = null;
-    }
+var cl = require('cache-layer'), cnt = 0;
 
-    e = e || new Error();
+var fibonacci = cl.memoize(function(n) {
+    cnt++;
+    return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
+});
 
-    if (extype) {
+console.log('starting...');
 
-        if (extype.msg)
-            e.message = extype.msg;
+console.log(fibonacci(10), cnt);
 
-        if (extype.errno)
-            e.errno = e.code = extype.errno;
+console.log(fibonacci(20), cnt);
 
-        if (extype.symbol)
-            e.symbol = extype.symbol;
-
-    } else {
-
-        if (extype) e.message = extype.toString();
-
-    }
-
-    return e;
-};
-
-cacheException.notConfigured = {
-        msg: 'Cache is not configured',
-        symbol: 'P_CRT_ERR_CACHE_NONCONF'
-    };
-
-cacheException.unknownStorage = {
-        msg: 'Could not load cache standard storage module: %s',
-        symbol: 'P_CRT_ERR_CACHE_STORLOAD'
-    };
-
-cacheException.unknownStrategy = {
-        msg: 'Could not load cache standard strategy module: %s',
-        symbol: 'P_CRT_ERR_CACHE_STRGLOAD'
-    };
-
-cacheException.notSynchronous = {
-        msg: '%s cache engine cannot be used synchronously!',
-        symbol: 'P_CRT_ERR_CACHE_NONCONF'
-    };
-
+// and now it should wait 60 seconds.
